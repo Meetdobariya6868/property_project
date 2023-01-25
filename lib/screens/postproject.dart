@@ -190,6 +190,11 @@ class _PostPropertyState extends State<PostProperty> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Post Project'),
+          backgroundColor: kPrimaryColor,
+          // automaticallyImplyLeading: false,
+        ),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(

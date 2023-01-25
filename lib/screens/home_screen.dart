@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/favourite.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'constant.dart';
+import 'favourite.dart';
 import 'postproject.dart';
 import 'propertydetail.dart';
 import 'signin.dart';
@@ -365,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               onTap: () {
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const HomePage(),
                   ),

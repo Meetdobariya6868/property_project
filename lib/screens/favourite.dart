@@ -44,7 +44,7 @@ class _MyFavoritePostState extends State<MyFavoritePost> {
       appBar: AppBar(
         title: const Text('Favourite'),
         backgroundColor: kPrimaryColor,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/constant.dart';
 
+import 'constant.dart';
 import 'signin.dart';
 import 'signup.dart';
 
