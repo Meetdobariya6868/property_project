@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'constant.dart';
 
 class propertyDetail extends StatefulWidget {
-  const propertyDetail({super.key});
+  // final String value;
+  // final String u2;
+  // final int v1;
+
+  const propertyDetail({super.key,});
 
   @override
   State<propertyDetail> createState() => _propertyDetailState();

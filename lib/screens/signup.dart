@@ -13,6 +13,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
   List<String> lst1 = ['User', 'Builder'];
   int selectedIndex = 0;
   final _formKey = GlobalKey<FormState>();
@@ -37,6 +38,12 @@ class _SignUpPageState extends State<SignUpPage> {
     confirmPasswordController.dispose();
     super.dispose();
   }
+
+  // void validation(){
+  //   if () {
+
+  //   }
+  // }
 
   // registration() async {
   //   if (password == confirmPassword) {
@@ -380,15 +387,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                // if (_formKey.currentState!.validate()) {
-                                //   setState(() {
-                                //     email = emailController.text;
-                                //     password = passwordController.text;
-                                //     confirmPassword =
-                                //         confirmPasswordController.text;
-                                //   });
-                                //   registration();
-                                // }
                                 signUp();
                               },
                               style: ElevatedButton.styleFrom(
@@ -517,6 +515,7 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } else {
       print("Password and Confirm Password doesn't match");
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: kPrimaryColor,
@@ -526,6 +525,12 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       );
+      // nameController.clear();
+      // passwordController.clear();
+      // emailController.clear();
+      // mobilenoController.clear();
+      // confirmPasswordController.clear();
+      // Navigator.pop(context);
     }
   }
 

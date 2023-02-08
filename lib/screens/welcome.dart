@@ -101,7 +101,9 @@ class _WelcomePageState extends State<WelcomePage> {
                         elevation: 0,
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
