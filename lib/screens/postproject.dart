@@ -352,17 +352,24 @@ class _PostPropertyState extends State<PostProperty> {
 
     // try {
     //   for (int i = 0; i < _imageList.length; i++) {
-
     //     // if(_imageList[i] == null) {
     //     //
     //     // }
+    //     //     var firstImage = await ImagePicker().pickImage(
+    //     //     source: ImageSource.gallery, imageQuality: 65);
+    //     // setState(() {
+    //     //   _image1 = firstImage as File;
+    //     // });
     //     String fileName = _imageList[i].path;
-    //     final StorageReference storageReference = FirebaseStorage().ref().child("multiple2/$fileName");
+    //     // var storageRef = firebase.storage().ref(fullDirectory+"/"+imageFile.name);
+    //     final StorageReference storageReference =
+    //         FirebaseStorage().ref().child("multiple2/$fileName");
 
-    //     final StorageUploadTask uploadTask = storageReference.putFile(_imageList[i]);
+    //     final StorageUploadTask uploadTask =
+    //         storageReference.putFile(_imageList[i]);
 
     //     final StreamSubscription<StorageTaskEvent> streamSubscription =
-    //     uploadTask.events.listen((event) {
+    //         uploadTask.events.listen((event) {
     //       // You can use this to notify yourself or your user in any kind of way.
     //       // For example: you could use the uploadTask.events stream in a StreamBuilder instead
     //       // to show your user what the current status is. In that case, you would not need to cancel any
@@ -385,35 +392,34 @@ class _PostPropertyState extends State<PostProperty> {
     //   // });
 
     //   postProperty(
-    //     'Residential',
-    //     '${owner_builder_broker[selectedIndex]}',
-    //     '${sell_and_rent[selectedIndex1]}',
-    //     '${propertyType[propertyTypeSelect]}',
-    //     '${project_name_controller_r.text}',
-    //     '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
-    //     '${landmark_controller_r.text}',
-    //     '${city_controller_r.text}',
-    //     '${States[_value2]}',
-    //     '${bhk[selectedIndex2]}',
-    //     '${area_controller_r.text} ${Items1[_value1]}',
-    //     '${price_controller_r.text}/${Items1[_value1]}',
-    //     '${project_description_controller_r.text}',
-    //     '${construction_status[selectedIndex3]}',
-    //     '${_imageUrls[0]}',
-    //     '${_imageUrls[1]}',
-    //     '${_imageUrls[2]}',
-    //     '${FirebaseAuth.instance.currentUser!.uid}',
-    //     userView,
+    //       'Residential',
+    //       '${owner_builder_broker[selectedIndex]}',
+    //       '${sell_and_rent[selectedIndex1]}',
+    //       '${propertyType[propertyTypeSelect]}',
+    //       '${project_name_controller_r.text}',
+    //       '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
+    //       '${landmark_controller_r.text}',
+    //       '${city_controller_r.text}',
+    //       '${States[_value2]}',
+    //       '${bhk[selectedIndex2]}',
+    //       '${area_controller_r.text} ${Items1[_value1]}',
+    //       '${price_controller_r.text}/${Items1[_value1]}',
+    //       '${project_description_controller_r.text}',
+    //       '${construction_status[selectedIndex3]}',
+    //       '${_imageUrls[0]}',
+    //       '${_imageUrls[1]}',
+    //       '${_imageUrls[2]}',
+    //       '${FirebaseAuth.instance.currentUser!.uid}',
+    //       userView,
     //       'Available',
-    //       false
-
-    //   );
+    //       false);
 
     //   //postProperty(category, postBy, sr_radio, pro_type, projectName, address, landmark, city, state, pro_detail, area, price, description, con_status, url_link)
     // } catch (e) {
     //   print(e);
     // }
   }
+
   Future uploadMultipleImages2() async {
     // List<File> _imageList = [];
     // List<String> _imageUrls = [];
@@ -907,30 +913,76 @@ class _PostPropertyState extends State<PostProperty> {
                               Container(
                                 height: 100,
                                 width: MediaQuery.of(context).size.width,
-                                margin: const EdgeInsets.only(
-                                    left: 20.0, right: 20.0),
+                                margin:
+                                    EdgeInsets.only(left: 20.0, right: 20.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image4 != null
+                                              //     ? Image.file(_image4)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage4();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image5 != null
+                                              //     ? Image.file(_image5)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage5();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image6 != null
+                                              //     ? Image.file(_image6)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage6();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
+
                               const SizedBox(
                                 height: 10.0,
                               ),
@@ -1490,44 +1542,91 @@ class _PostPropertyState extends State<PostProperty> {
                               ),
                               const Divider(),
                               Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(left: 20),
-                                  child: const Text(
-                                    "Upload Photos",
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold),
-                                  )), //upload photo container
+                                alignment: Alignment.topLeft,
+                                margin: const EdgeInsets.only(left: 20),
+                                child: const Text(
+                                  "Upload Photos",
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ), //upload photo container
                               const SizedBox(
                                 height: 10.0,
                               ),
                               Container(
                                 height: 100,
                                 width: MediaQuery.of(context).size.width,
-                                margin: const EdgeInsets.only(
-                                    left: 20.0, right: 20.0),
+                                margin:
+                                    EdgeInsets.only(left: 20.0, right: 20.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image1 != null
+                                              //     ? Image.file(_image1)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage1();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image2 != null
+                                              //     ? Image.file(_image2)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage2();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Container(
                                         height: 100,
+                                        child: ClipRRect(
+                                          child:
+                                              //  _image3 != null
+                                              //     ? Image.file(_image3)
+                                              //     :
+                                              ElevatedButton(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 50,
+                                            ),
+                                            onPressed: () {
+                                              getImage3();
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
+                              ), //Choose photo
+
                               const SizedBox(
                                 height: 10.0,
                               ),

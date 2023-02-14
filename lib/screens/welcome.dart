@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    show FirebaseAuth, GoogleAuthProvider, User, UserCredential;
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'constant.dart';
+import 'home_screen.dart';
 import 'signin.dart';
 import 'signup.dart';
 
@@ -10,8 +15,61 @@ class WelcomePage extends StatefulWidget {
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
-
 class _WelcomePageState extends State<WelcomePage> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  User get user => _auth.currentUser!;
+
+  Future<bool> signInWithGoogle() async {
+    bool result = false;
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          // add the data to fire base
+          await _firestore.collection('users').doc(user.uid).set({
+            'uid': user.uid,
+            'userEmail': user.email,
+            'userImage': user.photoURL,
+            'userName': user.displayName,
+          });
+        }
+        result = true;
+      }
+      if (result != null) {
+        Navigator.pushReplacement(
+          context as BuildContext,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
+      return result;
+    } catch (e) {
+      print(e);
+    }
+    return result;
+  }
+
+  void signOut() async {
+    try {
+      _auth.signOut();
+    } catch (e) {
+      print('can not signOut as : $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +121,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
+                                builder: (context) => const SignUpPage()));
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 45),
@@ -102,7 +160,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-
+                          signInWithGoogle();
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +172,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             const SizedBox(
                               width: 8,
                             ),
-                            const Text("Sign up with google"),
+                            const Text("Sign in with Google"),
                           ],
                         ),
                       ),
@@ -135,7 +193,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SigninPage(),
+                                  builder: (context) => const SigninPage(),
                                 ));
                           },
                           style: TextButton.styleFrom(

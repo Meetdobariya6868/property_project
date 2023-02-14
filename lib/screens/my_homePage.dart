@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.12,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30)),
@@ -106,13 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: const EdgeInsets.only(top: 15),
                 // child:
                 child: Center(
                     child: Text(
                         "Hello,"
                         " ${_auth!.displayName}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white))),
@@ -122,34 +122,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search_Page()));
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 80, left: 30, right: 30),
+                  margin: const EdgeInsets.only(top: 80, left: 30, right: 30),
                   height: 50,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
                   ),
-                  padding: EdgeInsets.only(left: 30, top: 15),
-                  child: Text("Search",
+                  padding: const EdgeInsets.only(left: 30, top: 15),
+                  child: const Text("Search",
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
                 ),
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           Container(
-            margin: EdgeInsets.only(left: 15),
+            margin: const EdgeInsets.only(left: 15),
             child: Text("Available property(${userProfilesList.length})",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Container(
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: userProfilesList.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
@@ -169,8 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             print(doc_id),
                             route = MaterialPageRoute(
                               builder: (BuildContext context) => propertyDetail(
-                                  // value: doc_id,u2:i1,v1:view2
-                                  ),
+                                  value: doc_id, u2: i1, v1: view2),
                             ),
                             i1 = snapshot.docs[index].get('postedById'),
                             Navigator.of(context).push(route),
@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                   },
                   child: Container(
-                    margin: EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
                     height: 350,
                     width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
@@ -196,13 +196,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             Container(
                               height: 160,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     topRight: Radius.circular(20)),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(20.0),
                                   topRight: Radius.circular(20.0),
                                 ),
@@ -214,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Container(
                               alignment: Alignment.topRight,
-                              margin: EdgeInsets.only(right: 20, top: 20),
+                              margin: const EdgeInsets.only(right: 20, top: 20),
                               child: FavoriteButton(
                                 isFavorite: false,
                                 valueChanged: (_isFavorite) {
@@ -260,17 +260,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Row(
                           children: [
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.only(left: 13),
+                                margin: const EdgeInsets.only(left: 13),
                                 height: 30,
                                 width: MediaQuery.of(context).size.width / 2,
                                 child: Text(
                                     userProfilesList[index]['projectName'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
                                         color: kTextColor)),
@@ -278,29 +278,29 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Expanded(
                                 child: Container(
-                              margin: EdgeInsets.only(right: 13),
+                              margin: const EdgeInsets.only(right: 13),
                               alignment: Alignment.topRight,
                               height: 20,
                               width: MediaQuery.of(context).size.width / 2,
                               child: Text(
                                   '₹' + userProfilesList[index]['price'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: kTextColor)),
                             ))
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
                             Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 13),
+                                margin: const EdgeInsets.only(left: 13),
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Posted by : ",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700),
@@ -309,20 +309,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                             // text: "Builder",
                                             text: userProfilesList[index]
                                                 ['postedBy'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400))
                                       ]),
                                 )),
-                            Spacer(),
+                            const Spacer(),
                             Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 13),
+                                margin: const EdgeInsets.only(left: 13),
                                 child: RichText(
                                   text: TextSpan(
                                     // text: "area",
                                     text: userProfilesList[index]['area'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w700),
@@ -337,14 +337,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 )),
                           ],
                         ),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Container(
                             alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
+                            margin: const EdgeInsets.only(left: 13),
                             child: RichText(
                               text: TextSpan(
                                   text: "Location : ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700),
@@ -353,20 +353,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                         // text: "city",
                                         text: userProfilesList[index]
                                             ['location'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w400))
                                   ]),
                             )),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Container(
                             alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
+                            margin: const EdgeInsets.only(left: 13),
                             child: RichText(
                               text: TextSpan(
                                   text: "Type : ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700),
@@ -374,23 +374,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                     TextSpan(
                                         text: userProfilesList[index]
                                             ['category'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w400))
                                   ]),
                             )),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Row(
                           children: [
                             Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(left: 13),
+                                  margin: const EdgeInsets.only(left: 13),
                                   child: RichText(
                                     text: TextSpan(
                                         text: "Status : ",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700),
@@ -398,7 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           TextSpan(
                                               text: userProfilesList[index]
                                                   ['status'],
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400))
@@ -408,7 +408,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Expanded(
                                 child: Container(
                               alignment: Alignment.topRight,
-                              margin: EdgeInsets.only(right: 13),
+                              margin: const EdgeInsets.only(right: 13),
                               child: Text(
                                 userProfilesList[index]['markAsSold'],
                                 style: TextStyle(

@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/profile.dart';
+import 'package:flutter_application_1/screens/review1.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/databaseManager.dart';
+import 'Emi_cal.dart';
 import 'constant.dart';
 import 'favourite.dart';
 import 'myPost.dart';
@@ -46,6 +48,7 @@ class _HomePageState extends State<HomePage> {
       await launch(url);
     }
   }
+
   openUrl() {
     String url = "https://anyror.gujarat.gov.in/";
     _launchUrl(url);
@@ -93,7 +96,6 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +109,10 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   Icon(Icons.location_on_outlined),
-                  Text("Mapview", style: TextStyle(color: Colors.white),)
+                  Text(
+                    "Mapview",
+                    style: TextStyle(color: Colors.white),
+                  )
                 ],
               ),
             ),
@@ -415,17 +420,19 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     child: FutureBuilder(
                       future: _fetch(),
-                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                        if(snapshot.connectionState!=ConnectionState.done) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
                           return Text("Loading....");
                         }
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Padding(padding: EdgeInsets.only(top: 45.0)),
                             Text(
-                              // FirebaseAuth.instance.currentUser!.displayName!,
-                              "myName",
+                              FirebaseAuth.instance.currentUser!.displayName!,
+                              // "myName",
                               style: TextStyle(
                                   fontSize: 22.0,
                                   color: Color.fromARGB(255, 35, 60, 202)),
@@ -437,22 +444,21 @@ class _HomePageState extends State<HomePage> {
                               // FirebaseAuth.instance.currentUser!.phoneNumber!,
                               "myPhone",
                               style: TextStyle(
-                                  fontSize: 15.0,
+                                  fontSize: 12.0,
                                   color: Color.fromARGB(255, 47, 209, 193)),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Text(
-                              "myEmail",
-                              // "meetdobariya6868@gmail.com",
-                              style:
-                              const TextStyle(fontSize: 11, color: Colors.black),
+                              // "myEmail",
+                              FirebaseAuth.instance.currentUser!.email!,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.black),
                             ),
                           ],
                         );
                       },
-
                     ),
                   ),
                 ],
@@ -492,22 +498,22 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            ListTile(
-              title: Row(
-                children: const [
-                  Icon(Icons.add_box_outlined),
-                  Padding(padding: EdgeInsets.only(left: 10.0)),
-                  Text("Post Property"),
-                ],
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const PostProperty(),
-                  ),
-                );
-              },
-            ),
+            // ListTile(
+            //   title: Row(
+            //     children: const [
+            //       Icon(Icons.add_box_outlined),
+            //       Padding(padding: EdgeInsets.only(left: 10.0)),
+            //       Text("Post Property"),
+            //     ],
+            //   ),
+            //   onTap: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const PostProperty(),
+            //       ),
+            //     );
+            //   },
+            // ),
             ListTile(
               title: Row(
                 children: [
@@ -518,28 +524,29 @@ class _HomePageState extends State<HomePage> {
               ),
               // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Sold_Property())),
             ),
+            // ListTile(
+            //   title: Row(
+            //     children: const [
+            //       Icon(Icons.home_outlined),
+            //       Padding(padding: EdgeInsets.only(left: 10.0)),
+            //       Text("New Project")
+            //     ],
+            //   ),
+            //   onTap: () {
+            //     // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>viewNewProject()));
+            //   },
+            // ),
             ListTile(
               title: Row(
-                children: const [
-                  Icon(Icons.home_outlined),
-                  Padding(padding: EdgeInsets.only(left: 10.0)),
-                  Text("New Project")
-                ],
-              ),
-              onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>viewNewProject()));
-              },
-            ),
-            ListTile(
-              title:Row(
                 children: [
                   Icon(Icons.calculate_outlined),
                   Padding(padding: EdgeInsets.only(left: 10.0)),
                   Text("EMI Calculator")
                 ],
               ),
-              onTap: (){
-                // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>emiCalculator()));
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => EmiCalculator()));
               },
             ),
             ListTile(
@@ -561,49 +568,68 @@ class _HomePageState extends State<HomePage> {
               height: 70.0,
               child: Row(
                 children: [
-                  Padding(padding: EdgeInsets.only(left: 10.0,)),
+                  Padding(
+                      padding: EdgeInsets.only(
+                    left: 10.0,
+                  )),
                   Column(
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(padding: EdgeInsets.only(top: 20.0)),
-                      Text("Contact Us",style: TextStyle(fontSize: 20.0,),),
-                      SizedBox(height: 3.0,),
+                      Text(
+                        "Contact Us",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3.0,
+                      ),
                       // Padding(padding: EdgeInsets.only(left: 10.0)),
                       // Text("9988776655",style: TextStyle(fontSize: 15.0,color: Colors.blue),)
                     ],
                   ),
-                  SizedBox(width: 80.0,),
+                  SizedBox(
+                    width: 80.0,
+                  ),
                   GestureDetector(
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage("assets/images/call.png",)
-                        ),
+                            image: AssetImage(
+                              "assets/images/call.png",
+                            )),
                       ),
                       height: 30.0,
                       width: 30.0,
                     ),
-                    onTap: (){
+                    onTap: () {
                       openPhoneCall(phoneNumber: '(+91)9016071000');
                     },
                   ),
-                  SizedBox(width: 20.0,),
+                  SizedBox(
+                    width: 20.0,
+                  ),
                   GestureDetector(
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage("assets/images/call.png",)
-                        ),
+                            image: AssetImage(
+                              "assets/images/call.png",
+                            )),
                       ),
                       height: 50.0,
                       width: 50.0,
                     ),
-                    onTap: (){
-                      openEmail(toEmail: 'akdesai123@gmail.com', subject: '', body: '');
+                    onTap: () {
+                      openEmail(
+                          toEmail: 'akdesai123@gmail.com',
+                          subject: '',
+                          body: '');
                     },
                   )
                 ],
@@ -611,6 +637,20 @@ class _HomePageState extends State<HomePage> {
             ),
             const Divider(
               color: kPrimaryColor,
+            ),
+            ListTile(
+              title: Row(
+                children: const [
+                  Icon(Icons.reviews_outlined),
+                  Padding(padding: EdgeInsets.only(left: 10.0)),
+                  Text("Review")
+                ],
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Review(),
+                ));
+              },
             ),
             ListTile(
               title: Row(
@@ -656,7 +696,7 @@ class _HomePageState extends State<HomePage> {
                 showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder:(BuildContext context){
+                    builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text("Are you sure?"),
                         contentPadding: EdgeInsets.all(10),
@@ -664,29 +704,43 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             children: [
                               GestureDetector(
-                                  onTap: (){
-                                    signOut().whenComplete(()=>Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>SigninPage()), (Route<dynamic>route) => false));
+                                  onTap: () {
+                                    signOut().whenComplete(() =>
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SigninPage()),
+                                                (Route<dynamic> route) =>
+                                                    false));
                                     Navigator.of(context).pop();
                                   },
                                   child: Container(
-                                    child: Text("Yes",style: TextStyle(color: Colors.blue,fontSize: 20),),
-                                  )
+                                    child: Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          color: Colors.blue, fontSize: 20),
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 20,
                               ),
-                              SizedBox(width: 20,),
                               GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     Navigator.of(context).pop();
                                   },
                                   child: Container(
-                                    child: Text("No",style: TextStyle(color: Colors.blue,fontSize: 20),),
-                                  )
-                              ),
+                                    child: Text(
+                                      "No",
+                                      style: TextStyle(
+                                          color: Colors.blue, fontSize: 20),
+                                    ),
+                                  )),
                             ],
                           ),
                         ],
                       );
-                    }
-                );
+                    });
               },
             )
           ],
@@ -737,8 +791,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   Future<SigninPage> signOut() async {
-    SharedPreferences prefs=await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     //prefs.remove('phoneNumber');
     await FirebaseAuth.instance.signOut();
@@ -747,24 +802,25 @@ class _HomePageState extends State<HomePage> {
 
   _fetch() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    if(firebaseUser!=null){
+    if (firebaseUser != null) {
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(firebaseUser.uid)
           .get()
-          .then((value){
-        myEmail=value.data()!['email'];
-        myName=value.data()!['name'];
-        myPhone=value.data()!['mobileNumber'];
-        myPhoto=value.data()!['Image'];
+          .then((value) {
+        myEmail = value.data()!['email'];
+        myName = value.data()!['name'];
+        myPhone = value.data()!['mobileNumber'];
+        myPhoto = value.data()!['Image'];
         // print(myEmail);
         // print(myName);
         // print(myPhone);
-      }).catchError((e){
+      }).catchError((e) {
         print(e);
       });
     }
   }
+
   Future<void> resetpassword() async {
     User? _auth = FirebaseAuth.instance.currentUser;
     _auth!.sendEmailVerification();

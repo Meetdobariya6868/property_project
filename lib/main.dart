@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
+import 'package:flutter_application_1/screens/login_with_phone.dart';
+import 'package:flutter_application_1/screens/signup.dart';
 import 'screens/welcome.dart';
 
 void main() {

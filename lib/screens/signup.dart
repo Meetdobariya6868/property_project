@@ -1,22 +1,56 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'constant.dart';
 import 'signin.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
   List<String> lst1 = ['User', 'Builder'];
   int selectedIndex = 0;
   final _formKey = GlobalKey<FormState>();
+
+  // RegExp pass_valid = RegExp(r"(?=.*/d)(?=.*[a-z])(?=.*[A-Z])"); //(?=.*\W)
+  // bool validatePassword(String pass) {
+  //   String _password = pass.trim();
+
+  //   if (pass_valid.hasMatch(_password)) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+//this Expression for password :
+  bool isValidEmail(String email) {
+    final RegExp regex =
+        RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return regex.hasMatch(email);
+  }
+
+  bool hasUpperCase(String value) {
+    return value.contains(new RegExp(r'[A-Z]'));
+  }
+
+  bool hasLowerCase(String value) {
+    return value.contains(new RegExp(r'[a-z]'));
+  }
+
+  bool hasNumber(String value) {
+    return value.contains(new RegExp(r'[0-9]'));
+  }
+
+  bool hasSpecialChar(String value) {
+    return value.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  }
+
   var name = "";
   var email = "";
   var mono = "";
@@ -33,16 +67,40 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
+    nameController.dispose();
     emailController.dispose();
+    mobilenoController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
   }
 
-  // void validation(){
-  //   if () {
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
 
-  //   }
+  Future<void> addUser() {
+    //   String name, String email, int mobileno, String password) async {
+    // await FirebaseFirestore.instance.collection('users').add({
+    //   'name': name,
+    //   'email': email,
+    //   'mono': mobileno,
+    //   'password': password,
+    // });
+
+    return users
+        .add({
+          'name': name,
+          'email': email,
+          'mono': mono,
+          // 'password': password,
+          // 'cpassword': confirmPassword
+        })
+        .then((value) => print('User Added'))
+        .catchError((error) => print('Failed to Add user: $error'));
+  }
+  // clearText() {
+  //   nameController.clear();
+  //   numberController.clear();
+  //   passwordController.clear();
   // }
 
   // registration() async {
@@ -196,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: TextFormField(
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please enter username';
+                                      return 'Please Enter Username';
                                     }
                                     return null;
                                   },
@@ -219,7 +277,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Your email : ",
+                                "Your Email : ",
                                 style: TextStyle(fontSize: 18),
                               ),
                               const SizedBox(
@@ -231,9 +289,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                     color: kBackgroundColor),
                                 child: TextFormField(
                                   validator: (value) {
-                                    if (value!.isEmpty ||
-                                        !value.contains('@gmail.com')) {
-                                      return 'invalid email';
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please Enter Email';
+                                    } else if (!isValidEmail(value)) {
+                                      return 'Please Enter Valid Email';
                                     }
                                     return null;
                                   },
@@ -260,7 +319,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Your mobile number : ",
+                                "Your Mobile Number : ",
                                 style: TextStyle(fontSize: 18),
                               ),
                               const SizedBox(
@@ -273,7 +332,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: TextFormField(
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please enter mobile number';
+                                      return 'Please Enter Mobile Number';
                                     }
                                     return null;
                                   },
@@ -312,11 +371,34 @@ class _SignUpPageState extends State<SignUpPage> {
                                     color: kBackgroundColor),
                                 child: TextFormField(
                                   validator: (value) {
-                                    if (value!.isEmpty || value.length <= 5) {
-                                      return 'invalid password';
+                                    if (value!.isEmpty) {
+                                      return 'Please enter a password';
+                                    } else if (value.length < 6) {
+                                      return 'Password must be at least 8 characters long';
+                                    } else if (!hasUpperCase(value)) {
+                                      return 'Password must contain at least one uppercase letter';
+                                    } else if (!hasLowerCase(value)) {
+                                      return 'Password must contain at least one lowercase letter';
+                                    } else if (!hasNumber(value)) {
+                                      return 'Password must contain at least one number';
+                                    } else if (!hasSpecialChar(value)) {
+                                      return 'Password must contain at least one special character';
                                     }
                                     return null;
                                   },
+
+                                  // validator: (value) {
+                                  // //   if (value!.isEmpty || value.length <= 5) {
+                                  // //     return 'Password Should not empty!';
+                                  // //   } else {
+                                  // //     bool result = validatePassword(value);
+                                  // //     if (result) {
+                                  // //       return null;
+                                  // //     } else {
+                                  // //       return 'Password must contain Capital, Small letter & number';
+                                  // //     }
+                                  // //   }
+                                  // // },
                                   onSaved: (pass) {
                                     password = pass!;
                                   },
@@ -387,6 +469,31 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
+                                // if (_formKey.currentState!.validate()) {
+                                //   setState(() {
+                                //     email = emailController.text;
+                                //     password = passwordController.text;
+                                //     confirmPassword =
+                                //         confirmPasswordController.text;
+                                //   });
+                                //   registration();
+                                // }
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    name = nameController.text;
+                                    mono = mobilenoController.text;
+                                    password = passwordController.text;
+                                    email = emailController.text;
+                                    confirmPassword =
+                                        confirmPasswordController.text;
+                                    //////////
+                                    addUser();
+                                    //     nameController.text,
+                                    //     emailController.text,
+                                    //     int.parse(mobilenoController.text),
+                                    //     passwordController.text);
+                                  });
+                                }
                                 signUp();
                               },
                               style: ElevatedButton.styleFrom(
@@ -515,7 +622,6 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } else {
       print("Password and Confirm Password doesn't match");
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: kPrimaryColor,
@@ -525,12 +631,6 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       );
-      // nameController.clear();
-      // passwordController.clear();
-      // emailController.clear();
-      // mobilenoController.clear();
-      // confirmPasswordController.clear();
-      // Navigator.pop(context);
     }
   }
 
